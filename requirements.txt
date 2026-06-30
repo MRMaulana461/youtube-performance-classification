@@ -1,0 +1,7 @@
+flask==3.0.3
+tensorflow==2.16.1
+numpy==1.26.4
+pandas==2.2.2
+nltk==3.8.1
+pillow==10.3.0
+werkzeug==3.0.3

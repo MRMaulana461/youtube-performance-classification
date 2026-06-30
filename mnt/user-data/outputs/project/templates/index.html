@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Performance Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="topbar-inner">
+            <span class="logo-dot"></span>
+            <span class="topbar-title">YouTube Video Performance Predictor</span>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="hero">
+            <h1>Cek Seberapa Menarik Desain Thumbnail</h1>
+            <p class="subtitle">
+                Masukkan judul video dan thumbnail, lalu sistem akan memprediksi
+                potensi performa videomu: <strong>rendah</strong>, <strong>sedang</strong>,
+                atau <strong>tinggi</strong>.
+            </p>
+        </section>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-wrap">
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <section class="card form-card">
+            <form action="{{ url_for('index') }}" method="POST" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label for="title">Judul Video</label>
+                    <textarea
+                        id="title"
+                        name="title"
+                        rows="2"
+                        placeholder="Contoh: Tutorial Edit Video Cepat untuk Pemula"
+                        required
+                    >{{ input_title or '' }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Thumbnail Video</label>
+
+                    <label class="upload-box" id="uploadBox" for="thumbnail">
+                        <span class="upload-text" id="uploadText">Upload</span>
+                        <svg class="upload-icon" id="uploadIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                    </label>
+                    <input
+                        type="file"
+                        id="thumbnail"
+                        name="thumbnail"
+                        accept=".png,.jpg,.jpeg"
+                        class="upload-input"
+                        required
+                    >
+
+                    <img id="previewImg" class="preview-img hidden" alt="Preview thumbnail">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-predict">Prediksi</button>
+                </div>
+
+            </form>
+        </section>
+
+        {% if predicted_label %}
+        <section class="card result-card">
+            <h2 class="result-title">Hasil Prediksi</h2>
+
+            <div class="result-body">
+                <div class="result-thumb">
+                    <img src="{{ url_for('uploaded_file', filename=uploaded_image.split('/')[-1]) }}" alt="Thumbnail diupload">
+                </div>
+
+                <div class="result-info">
+                    <p class="result-video-title">"{{ input_title }}"</p>
+
+                    <div class="predicted-badge predicted-{{ predicted_label }}">
+                        Prediksi: {{ predicted_label | capitalize }}
+                    </div>
+
+                    <p class="confidence-text">
+                        Confidence: <strong>{{ "%.2f"|format(confidence) }}%</strong>
+                    </p>
+
+                    <div class="prob-list">
+                        <div class="prob-row">
+                            <span class="prob-label">Rendah</span>
+                            <div class="prob-bar-track">
+                                <div class="prob-bar-fill prob-rendah" style="width: {{ prob_rendah }}%;"></div>
+                            </div>
+                            <span class="prob-value">{{ "%.2f"|format(prob_rendah) }}%</span>
+                        </div>
+                        <div class="prob-row">
+                            <span class="prob-label">Sedang</span>
+                            <div class="prob-bar-track">
+                                <div class="prob-bar-fill prob-sedang" style="width: {{ prob_sedang }}%;"></div>
+                            </div>
+                            <span class="prob-value">{{ "%.2f"|format(prob_sedang) }}%</span>
+                        </div>
+                        <div class="prob-row">
+                            <span class="prob-label">Tinggi</span>
+                            <div class="prob-bar-track">
+                                <div class="prob-bar-fill prob-tinggi" style="width: {{ prob_tinggi }}%;"></div>
+                            </div>
+                            <span class="prob-value">{{ "%.2f"|format(prob_tinggi) }}%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% else %}
+        <section class="card result-card result-empty">
+            <h2 class="result-title">Hasil Prediksi:</h2>
+            <p class="empty-text">Hasil prediksi akan muncul di sini setelah kamu menekan tombol Prediksi.</p>
+        </section>
+        {% endif %}
+
+    </main>
+
+    <footer class="footer">
+        <p>Dibuat untuk demo hackathon • Multimodal Deep Learning (Text + Image)</p>
+    </footer>
+
+    <script>
+        const fileInput = document.getElementById('thumbnail');
+        const previewImg = document.getElementById('previewImg');
+        const uploadText = document.getElementById('uploadText');
+        const uploadBox = document.getElementById('uploadBox');
+
+        fileInput.addEventListener('change', function () {
+            const file = this.files && this.files[0];
+            if (!file) return;
+
+            uploadText.textContent = file.name;
+            uploadBox.classList.add('has-file');
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImg.src = e.target.result;
+                previewImg.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,378 @@
+/* ============================================================
+   YouTube Video Performance Predictor — Stylesheet
+   ============================================================ */
+
+:root {
+    --bg: #f4f4f5;
+    --card-bg: #ffffff;
+    --topbar-bg: #d9d9d9;
+    --upload-bg: #e4e4e7;
+    --text-main: #18181b;
+    --text-muted: #71717a;
+    --border: #e4e4e7;
+
+    --color-rendah: #ef4444;
+    --color-sedang: #f59e0b;
+    --color-tinggi: #22c55e;
+
+    --accent: #18181b;
+    --radius: 14px;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text-main);
+}
+
+/* ---------- Topbar ---------- */
+
+.topbar {
+    background-color: var(--topbar-bg);
+    padding: 16px 24px;
+}
+
+.topbar-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--text-main);
+    display: inline-block;
+}
+
+.topbar-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.2px;
+}
+
+/* ---------- Layout ---------- */
+
+.container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.hero h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 8px;
+}
+
+.hero .subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* ---------- Card ---------- */
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px;
+    margin-bottom: 24px;
+}
+
+/* ---------- Flash messages ---------- */
+
+.flash-wrap {
+    margin-bottom: 18px;
+}
+
+.flash {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.flash-error {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+/* ---------- Form ---------- */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+    background-color: #fafafa;
+    transition: border-color 0.15s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--text-main);
+    background-color: #fff;
+}
+
+/* Hidden native file input, custom box drives the UI */
+.upload-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.upload-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: var(--upload-bg);
+    border: 1px dashed #bdbdc2;
+    border-radius: 10px;
+    padding: 18px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.upload-box:hover {
+    background-color: #dadade;
+    border-color: #9a9aa1;
+}
+
+.upload-box.has-file {
+    background-color: #ecfdf5;
+    border-color: #6ee7b7;
+    color: #065f46;
+}
+
+.upload-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 320px;
+}
+
+.preview-img {
+    display: block;
+    margin-top: 14px;
+    max-width: 100%;
+    max-height: 220px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    object-fit: cover;
+}
+
+.hidden {
+    display: none;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-predict {
+    background-color: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s ease, opacity 0.15s ease;
+}
+
+.btn-predict:hover {
+    opacity: 0.88;
+}
+
+.btn-predict:active {
+    transform: scale(0.97);
+}
+
+/* ---------- Result card ---------- */
+
+.result-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 18px;
+}
+
+.result-empty .empty-text {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.result-body {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.result-thumb {
+    flex: 0 0 200px;
+}
+
+.result-thumb img {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+}
+
+.result-info {
+    flex: 1;
+    min-width: 220px;
+}
+
+.result-video-title {
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0 0 14px;
+}
+
+.predicted-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.predicted-rendah {
+    background-color: var(--color-rendah);
+}
+
+.predicted-sedang {
+    background-color: var(--color-sedang);
+}
+
+.predicted-tinggi {
+    background-color: var(--color-tinggi);
+}
+
+.confidence-text {
+    font-size: 0.95rem;
+    margin: 0 0 18px;
+    color: var(--text-main);
+}
+
+.prob-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.prob-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.prob-label {
+    flex: 0 0 60px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.prob-bar-track {
+    flex: 1;
+    height: 10px;
+    background-color: #f1f1f3;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.prob-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+
+.prob-rendah {
+    background-color: var(--color-rendah);
+}
+
+.prob-sedang {
+    background-color: var(--color-sedang);
+}
+
+.prob-tinggi {
+    background-color: var(--color-tinggi);
+}
+
+.prob-value {
+    flex: 0 0 56px;
+    text-align: right;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 560px) {
+    .card {
+        padding: 20px;
+    }
+
+    .result-body {
+        flex-direction: column;
+    }
+
+    .result-thumb {
+        flex: none;
+        max-width: 260px;
+    }
+}
